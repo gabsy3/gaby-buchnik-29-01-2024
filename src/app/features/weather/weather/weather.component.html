@@ -20,4 +20,14 @@
             <button mat-flat-button color="primary">Add</button>
         </div>
     </div>
+
+    @for(item of items; track item){
+        <div>
+            <span class="city">Tel-Aviv</span>
+            <span class="degrees">38</span>
+        </div>
+    }
+   @empty {
+    <div>there's no items</div>
+   }
 </div>
