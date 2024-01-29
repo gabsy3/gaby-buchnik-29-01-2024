@@ -1,23 +1,23 @@
-<div class="weather-wrapper">
-    
-    <mat-form-field>
+<div class="weather-wrapper text-center mx-auto p-3">
+
+    <mat-form-field class="mat-input-city">
         <mat-label>City</mat-label>
         <input matInput>
     </mat-form-field>
 
-    <div class="d-flex flex-row">
-        <div>
-            <img alt="city-weather" src="">
-            <div>
+    <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex">
+            <img alt="city-weather" src="" class="img">
+            <div class="d-flex flex-column ms-1">
                 <span class="city">Tel-Aviv</span>
                 <span class="degrees">38</span>
             </div>
         </div>
-        <div>
-            <button mat-flat-button color="primary">Add</button>
-            <button mat-fab disabled aria-label="Example icon button with a heart icon">
+        <div class="d-flex align-items-center">
+            <button mat-fab disabled aria-label="favorite" class="s-1 me-1">
                 <mat-icon>favorite</mat-icon>
             </button>
+            <button mat-flat-button color="primary">Add</button>
         </div>
     </div>
 </div>
