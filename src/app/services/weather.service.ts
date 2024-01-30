@@ -27,7 +27,7 @@ export class WeatherService {
   getfiveDaysForecasts(locationKey: string) {
     //return this.http.get(`http://localhost:3000/fiveDaysForecasts`);
     return this.http.get(
-      `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${this.apiKey}`
+      `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?metric=true&apikey=${this.apiKey}`
     );
   }
 }

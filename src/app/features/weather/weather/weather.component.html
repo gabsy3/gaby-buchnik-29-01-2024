@@ -1,17 +1,6 @@
 <div class="weather-wrapper text-center mx-auto">
 
-    <form class="example-form">
-        <input type="text" placeholder="city" [formControl]="control" [matAutocomplete]="auto" class="example-input"
-            (keyup)="onKeyUp($event)"/>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCurrentConditions($event.option.value)">
-            @for (city of locations; track city) {
-            <mat-option [value]="city">{{city}}</mat-option>
-            }
-        </mat-autocomplete>
-    </form>
-
-
-    <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-row justify-content-between dash">
         <div class="d-flex">
             @if(currentConditions.city && currentConditions.Temperature && currentConditions.WeatherText){
             <img alt="city-weather" src={{currentConditions.WeatherIcon}} class="img">
@@ -25,10 +14,21 @@
             <div>City not found</div>
             }
         </div>
+
+        <form class="example-form">
+            <input type="text" placeholder="city" [formControl]="control" [matAutocomplete]="auto" class="example-input"
+                (keyup)="onKeyUp($event)"/>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCurrentConditions($event.option.value)">
+                @for (city of locations; track city) {
+                <mat-option [value]="city">{{city}}</mat-option>
+                }
+            </mat-autocomplete>
+        </form>
+
         <div class="d-flex align-items-center">
-            <button mat-fab disabled aria-label="favorite" class="s-1 me-1">
+            <button mat-icon-button color="warn" aria-label="favorite">
                 <mat-icon>favorite</mat-icon>
-            </button>
+              </button>
             <button mat-flat-button color="primary">Add</button>
         </div>
     </div>
