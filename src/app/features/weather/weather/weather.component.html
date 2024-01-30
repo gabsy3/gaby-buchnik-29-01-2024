@@ -13,16 +13,17 @@
 
     <div class="d-flex flex-row justify-content-between">
         <div class="d-flex">
-            <img alt="city-weather" src="" class="img">
+            @if(currentConditions.city && currentConditions.Temperature && currentConditions.WeatherText){
+            <img alt="city-weather" src={{currentConditions.WeatherIcon}} class="img">
             <div class="d-flex flex-column ms-1">
-                @if(currentConditions.city && currentConditions.Temperature && currentConditions.WeatherText){
+
                 <span class="city">{{currentConditions.city}}</span>
                 <span class="degrees">{{currentConditions.Temperature}}</span>
                 <span class="WeatherText">{{currentConditions.WeatherText}}</span>
-                }@else {
-                <div>City not found</div>
-                }
             </div>
+            }@else {
+            <div>City not found</div>
+            }
         </div>
         <div class="d-flex align-items-center">
             <button mat-fab disabled aria-label="favorite" class="s-1 me-1">
@@ -32,11 +33,10 @@
         </div>
     </div>
 
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-row justify-content-between forecast-wrapper">
         @for(item of fiveDaysForecast; track item){
         <div class="m-1 forecast-item">
-            <div class="minTemp">minimum temp : {{item.minTemp}}</div>
-            <div class="maxTemp">maximum temp :{{item.maxTemp}}</div>
+            <div class="Temp">{{item.minTemp}}F - {{item.maxTemp}}F</div>
             <div class="date">date: {{item.Date | date}}</div>
         </div>
         }

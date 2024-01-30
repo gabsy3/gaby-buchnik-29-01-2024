@@ -1,18 +1,28 @@
-.weather-wrapper{
-    width:1200px;
-    .mat-input-city{
-        width:500px;
+.weather-wrapper {
+    width: 1200px;
+
+    .mat-input-city {
+        width: 500px;
     }
-    img{
-        width:30px;
-        height:30px;
-        border:1px solid #ccc;
+
+    img {
+        width: 60px;
+        height: 60px;
     }
-    .s-1{
+
+    .s-1 {
         width: 35px;
-        height:35px;
+        height: 35px;
     }
-    .forecast-item{
-        border:1px solid #ccc;
+
+    .forecast-wrapper{
+        background: #000000d1;
+        color: white;
+        .forecast-item {
+            border: 1px solid #ccc;
+            padding: 30px;
+            border-radius: 10px;
+        }
     }
+    
 }

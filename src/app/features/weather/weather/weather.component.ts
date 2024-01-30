@@ -72,7 +72,7 @@ export class WeatherComponent implements OnInit {
       .subscribe((data: any) => {
         this.currentConditions.city = val;
         this.currentConditions.Temperature = data[0].Temperature.Metric.Value;
-        this.currentConditions.WeatherIcon = data[0].WeatherIcon;
+        this.currentConditions.WeatherIcon = `https://www.accuweather.com/images/weathericons/${data[0].WeatherIcon}.svg`
         this.currentConditions.WeatherText = data[0].WeatherText;
       });
 
