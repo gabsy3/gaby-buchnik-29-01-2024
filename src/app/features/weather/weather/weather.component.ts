@@ -12,7 +12,6 @@ import {
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WeatherService } from '../../../services/weather.service';
-import { Observable, startWith, map } from 'rxjs';
 import {
   CurrentConditions,
   Weather,
@@ -39,7 +38,7 @@ export class WeatherComponent implements OnInit {
   control: FormControl = new FormControl('tel aviv');
   locations: Weather[] = [];
   weatherService = inject(WeatherService);
-  currentId!: string;
+  currentId: string = "215854";
   currentConditions: CurrentConditions = {
     city: '',
     Temperature: '',
@@ -58,8 +57,8 @@ export class WeatherComponent implements OnInit {
       }
     });
   }
-  async getCurrentConditions(val: string) {
-    await this.weatherService.getLocation(val).subscribe((res: any) => {
+  getCurrentConditions(val: string) {
+    this.weatherService.getLocation(val).subscribe((res: any) => {
       for (let item of res) {
         if (item.LocalizedName.toLowerCase() === val.toLowerCase()) {
           this.currentId = item.Key;
@@ -81,11 +80,10 @@ export class WeatherComponent implements OnInit {
       .subscribe((data: any) => {
         this.fiveDaysForecast = [];
         for (let item of data.DailyForecasts) {
-          const min = +(item.Temperature.Minimum.Value-32) * 5/9
-          const max = +(item.Temperature.Maximum.Value-32) * 5/9
+        
           this.fiveDaysForecast.push({
-            minTemp:String(min),
-            maxTemp:String(max),
+            minTemp:item.Temperature.Minimum.Value,
+            maxTemp:item.Temperature.Maximum.Value,
             Date:item.Date,
             WeatherIcon:`https://www.accuweather.com/images/weathericons/${item.Day.Icon}.svg`
           })
