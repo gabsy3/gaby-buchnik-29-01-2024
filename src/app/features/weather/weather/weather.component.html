@@ -1,26 +1,27 @@
 <div class="weather-wrapper text-center mx-auto p-3">
 
     <form class="example-form">
-        <input type="text"
-               placeholder="city"
-               [formControl]="control"
-               [matAutocomplete]="auto"
-               class="example-input"
-               (keyup)="onKeyUp($event)">
-        <mat-autocomplete #auto="matAutocomplete">
-          @for (city of locations; track city) {
+        <input type="text" placeholder="city" [formControl]="control" [matAutocomplete]="auto" class="example-input"
+            (keyup)="onKeyUp($event)">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCurrentConditions($event.option.value)">
+            @for (city of locations; track city) {
             <mat-option [value]="city">{{city}}</mat-option>
-          }
+            }
         </mat-autocomplete>
-      </form>
-    
+    </form>
+
 
     <div class="d-flex flex-row justify-content-between">
         <div class="d-flex">
             <img alt="city-weather" src="" class="img">
             <div class="d-flex flex-column ms-1">
-                <span class="city">Tel-Aviv</span>
-                <span class="degrees">38</span>
+                @if(currentConditions.city && currentConditions.Temperature && currentConditions.WeatherText){
+                <span class="city">{{currentConditions.city}}</span>
+                <span class="degrees">{{currentConditions.Temperature}}</span>
+                <span class="WeatherText">{{currentConditions.WeatherText}}</span>
+                }@else {
+                <div>City not found</div>
+                }
             </div>
         </div>
         <div class="d-flex align-items-center">
@@ -31,13 +32,17 @@
         </div>
     </div>
 
-    @for(item of streets; track item){
-    <div>
-        <span class="city">Tel-Aviv</span>
-        <span class="degrees">38</span>
+    <div class="d-flex flex-row">
+        @for(item of fiveDaysForecast; track item){
+        <div class="m-1 forecast-item">
+            <div class="minTemp">minimum temp : {{item.minTemp}}</div>
+            <div class="maxTemp">maximum temp :{{item.maxTemp}}</div>
+            <div class="date">date: {{item.Date | date}}</div>
+        </div>
+        }
+        @empty {
+        <div>forcast empty</div>
+        }
     </div>
-    }
-    @empty {
-    <div>City not found</div>
-    }
+
 </div>

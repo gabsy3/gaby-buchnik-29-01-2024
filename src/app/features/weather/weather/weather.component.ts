@@ -13,7 +13,11 @@ import {
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WeatherService } from '../../../services/weather.service';
 import { Observable, startWith, map } from 'rxjs';
-import { Weather } from '../../../models/weather.model';
+import {
+  CurrentConditions,
+  Weather,
+  fiveDay,
+} from '../../../models/weather.model';
 
 @Component({
   selector: 'app-weather',
@@ -33,16 +37,56 @@ import { Weather } from '../../../models/weather.model';
 })
 export class WeatherComponent implements OnInit {
   control: FormControl = new FormControl('tel aviv');
-  streets: any;
   locations: Weather[] = [];
   weatherService = inject(WeatherService);
-  ngOnInit(): void {}
+  currentId!: string;
+  currentConditions: CurrentConditions = {
+    city: '',
+    Temperature: '',
+    WeatherIcon: '',
+    WeatherText: '',
+  };
+  fiveDaysForecast:fiveDay[] = [];
+  ngOnInit(): void {
+    this.getCurrentConditions(this.control.value);
+  }
   onKeyUp(e: any) {
     this.weatherService.getLocation(e.target.value).subscribe((res: any) => {
       this.locations = [];
       for (let item of res) {
-          this.locations.push(item.LocalizedName);
+        this.locations.push(item.LocalizedName);
       }
     });
+  }
+  getCurrentConditions(val: string) {
+    this.weatherService.getLocation(val).subscribe((res: any) => {
+      for (let item of res) {
+        if (item.LocalizedName.toLowerCase() === val.toLowerCase()) {
+          this.currentId = item.Key;
+        }
+      }
+    });
+
+    this.weatherService
+      .getCurrentConditions(this.currentId)
+      .subscribe((data: any) => {
+        this.currentConditions.city = val;
+        this.currentConditions.Temperature = data[0].Temperature.Metric.Value;
+        this.currentConditions.WeatherIcon = data[0].WeatherIcon;
+        this.currentConditions.WeatherText = data[0].WeatherText;
+      });
+
+    this.weatherService
+      .getfiveDaysForecasts(this.currentId)
+      .subscribe((data: any) => {
+        this.fiveDaysForecast = [];
+        for (let item of data.DailyForecasts) {
+          this.fiveDaysForecast.push({
+            minTemp:item.Temperature.Minimum.Value,
+            maxTemp:item.Temperature.Maximum.Value,
+            Date:item.Date
+          })
+        }
+      });
   }
 }

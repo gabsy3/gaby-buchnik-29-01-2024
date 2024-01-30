@@ -17,3 +17,16 @@ export interface Weather {
     ID: string
     LocalizedName: string
   }
+
+  export interface CurrentConditions{
+    city:string;
+    Temperature:string;
+    WeatherText:string;
+    WeatherIcon:string;
+  }
+
+  export interface fiveDay{
+    minTemp:string;
+    maxTemp:string;
+    Date:string;
+  }
