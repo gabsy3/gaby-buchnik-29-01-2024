@@ -26,9 +26,9 @@ import { WeatherService } from '../../../services/weather.service';
 })
 export class WeatherComponent implements OnInit {
   streets = [];
-  weatherService = inject(WeatherService);
+  //weatherService = inject(WeatherService);
   textInput: any = "Tel Aviv";
   ngOnInit(): void {
-    this.weatherService.getLocation(this.textInput).subscribe(data => console.log(data));
+   // this.weatherService.getLocation(this.textInput).subscribe(data => console.log(data));
   }
 }
