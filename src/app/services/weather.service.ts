@@ -11,7 +11,7 @@ export class WeatherService {
   constructor() {}
 
   getLocation(city: string) {
-    return this.httpClient.get(`http://localhost:3000/location`);
+    return this.httpClient.get<[]>(`http://localhost:3000/location`);
     return this.httpClient.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${city}`
     );

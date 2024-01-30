@@ -1,19 +1,19 @@
 <div class="weather-wrapper text-center mx-auto p-3">
 
-    <form class="mat-input-city">
+    <form class="example-form">
         <input type="text"
-               placeholder="City"
-               [formControl]="textInput"
-               [(ngModel)]="textInput"
+               placeholder="city"
+               [formControl]="control"
                [matAutocomplete]="auto"
                class="example-input">
         <mat-autocomplete #auto="matAutocomplete">
-          @for (street of streets; track street) {
+          @for (street of filteredStreets | async; track street) {
             <mat-option [value]="street">{{street}}</mat-option>
           }
         </mat-autocomplete>
       </form>
     
+
     <div class="d-flex flex-row justify-content-between">
         <div class="d-flex">
             <img alt="city-weather" src="" class="img">
@@ -31,12 +31,12 @@
     </div>
 
     @for(item of streets; track item){
-        <div>
-            <span class="city">Tel-Aviv</span>
-            <span class="degrees">38</span>
-        </div>
+    <div>
+        <span class="city">Tel-Aviv</span>
+        <span class="degrees">38</span>
+    </div>
     }
-   @empty {
+    @empty {
     <div>City not found</div>
-   }
+    }
 </div>
