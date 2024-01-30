@@ -4,10 +4,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WeatherService } from '../../../services/weather.service';
 import { Observable, startWith, map } from 'rxjs';
+import { Weather } from '../../../models/weather.model';
 
 @Component({
   selector: 'app-weather',
@@ -20,33 +26,23 @@ import { Observable, startWith, map } from 'rxjs';
     CommonModule,
     FormsModule,
     MatAutocompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.scss',
 })
 export class WeatherComponent implements OnInit {
-  control : FormControl = new FormControl('tel aviv');
-  streets :any;
-  filteredStreets: Observable<string[]> | undefined;
-
+  control: FormControl = new FormControl('tel aviv');
+  streets: any;
+  locations: Weather[] = [];
   weatherService = inject(WeatherService);
-  ngOnInit(): void {
-    this.weatherService.getLocation(this.control.value).subscribe(data =>{
-      this.streets = data;
+  ngOnInit(): void {}
+  onKeyUp(e: any) {
+    this.weatherService.getLocation(e.target.value).subscribe((res: any) => {
+      this.locations = [];
+      for (let item of res) {
+          this.locations.push(item.LocalizedName);
+      }
     });
-
-    this.filteredStreets = this.control.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
-  }
-  private _filter(value: string): string[] {
-    const filterValue = this._normalizeValue(value);
-    return this.streets.filter((street: string) => this._normalizeValue(street).includes(filterValue));
-  }
-
-  private _normalizeValue(value: string): string {
-    return value.toLowerCase().replace(/\s/g, '');
   }
 }

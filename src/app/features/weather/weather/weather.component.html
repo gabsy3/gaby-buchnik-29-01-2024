@@ -5,10 +5,11 @@
                placeholder="city"
                [formControl]="control"
                [matAutocomplete]="auto"
-               class="example-input">
+               class="example-input"
+               (keyup)="onKeyUp($event)">
         <mat-autocomplete #auto="matAutocomplete">
-          @for (street of filteredStreets | async; track street) {
-            <mat-option [value]="street">{{street}}</mat-option>
+          @for (city of locations; track city) {
+            <mat-option [value]="city">{{city}}</mat-option>
           }
         </mat-autocomplete>
       </form>
