@@ -81,10 +81,13 @@ export class WeatherComponent implements OnInit {
       .subscribe((data: any) => {
         this.fiveDaysForecast = [];
         for (let item of data.DailyForecasts) {
+          const min = +(item.Temperature.Minimum.Value-32) * 5/9
+          const max = +(item.Temperature.Maximum.Value-32) * 5/9
           this.fiveDaysForecast.push({
-            minTemp:item.Temperature.Minimum.Value,
-            maxTemp:item.Temperature.Maximum.Value,
-            Date:item.Date
+            minTemp:String(min),
+            maxTemp:String(max),
+            Date:item.Date,
+            WeatherIcon:`https://www.accuweather.com/images/weathericons/${item.Day.Icon}.svg`
           })
         }
       });

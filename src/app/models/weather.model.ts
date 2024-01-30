@@ -29,4 +29,5 @@ export interface Weather {
     minTemp:string;
     maxTemp:string;
     Date:string;
+    WeatherIcon:string;
   }
