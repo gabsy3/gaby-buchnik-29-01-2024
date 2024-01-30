@@ -1,4 +1,4 @@
-<div class="weather-wrapper text-center mx-auto p-3">
+<div class="weather-wrapper text-center mx-auto">
 
     <form class="example-form">
         <input type="text" placeholder="city" [formControl]="control" [matAutocomplete]="auto" class="example-input"
@@ -36,7 +36,7 @@
     <div class="d-flex flex-row justify-content-between forecast-wrapper">
         @for(item of fiveDaysForecast; track item){
         <div class="m-1 forecast-item">
-            <div class="Temp">{{item.minTemp | number}}° - {{item.maxTemp | number}}°</div>
+            <div class="Temp">{{item.minTemp | number: '1.0-0'}}° - {{item.maxTemp | number: '1.0-0'}}°</div>
             <img class="icon" src={{item.WeatherIcon}}>
             <div class="date">{{item.Date | date}}</div>
         </div>

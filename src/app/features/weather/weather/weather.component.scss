@@ -1,6 +1,9 @@
 .weather-wrapper {
-    width: 1200px;
-
+    
+    h4{
+        margin:0;
+        font-size: 24px;
+    }
     .mat-input-city {
         width: 500px;
     }
@@ -15,14 +18,19 @@
         height: 35px;
     }
 
-    .forecast-wrapper{
-        background: #000000d1;
+    .forecast-wrapper {
+        height: 200px;
+        background: rgba(0, 0, 0, 0.8196078431);
         color: white;
+        position: absolute;
+        bottom: 0;
+        width: -webkit-fill-available;
+
         .forecast-item {
-            border: 1px solid #ccc;
             padding: 30px;
-            border-radius: 10px;
+            border-right: 1px solid #666;
+            width: 15%;
         }
     }
-    
+
 }
