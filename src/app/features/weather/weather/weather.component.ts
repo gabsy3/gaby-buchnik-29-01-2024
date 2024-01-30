@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
 import {
   FormControl,
   FormGroup,
@@ -17,6 +18,7 @@ import {
   Weather,
   fiveDay,
 } from '../../../models/weather.model';
+import { Add, Remove } from '../../../actions/favorites.actions';
 
 @Component({
   selector: 'app-weather',
@@ -35,6 +37,7 @@ import {
   styleUrl: './weather.component.scss',
 })
 export class WeatherComponent implements OnInit {
+
   control: FormControl = new FormControl('tel aviv');
   locations: Weather[] = [];
   weatherService = inject(WeatherService);
@@ -46,6 +49,9 @@ export class WeatherComponent implements OnInit {
     WeatherText: '',
   };
   fiveDaysForecast:fiveDay[] = [];
+
+  constructor(private store: Store){}
+  
   ngOnInit(): void {
     this.getCurrentConditions(this.control.value);
   }
@@ -89,5 +95,9 @@ export class WeatherComponent implements OnInit {
           })
         }
       });
+  }
+  favoriteClick(){
+    this.store.dispatch(Add());
+    this.store.dispatch(Remove());
   }
 }
