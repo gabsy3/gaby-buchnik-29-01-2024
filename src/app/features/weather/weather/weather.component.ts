@@ -58,8 +58,8 @@ export class WeatherComponent implements OnInit {
       }
     });
   }
-  getCurrentConditions(val: string) {
-    this.weatherService.getLocation(val).subscribe((res: any) => {
+  async getCurrentConditions(val: string) {
+    await this.weatherService.getLocation(val).subscribe((res: any) => {
       for (let item of res) {
         if (item.LocalizedName.toLowerCase() === val.toLowerCase()) {
           this.currentId = item.Key;
