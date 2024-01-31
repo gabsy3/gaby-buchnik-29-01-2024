@@ -1,32 +1,31 @@
 <div class="weather-wrapper text-center mx-auto">
-
     <div class="d-flex flex-column justify-content-between dash">
 
         <form class="example-form">
-            <input type="text" placeholder="city" [formControl]="control" [matAutocomplete]="auto" class="search"
-                (keyup)="onKeyUp($event)" />
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCurrentConditions($event.option.value)">
+            <input type="text" placeholder="city" [matAutocomplete]="auto" class="search"
+                (keyup)="onKeyUp($event)" [(ngModel)]="inputCity" name="inputCity"/>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCurrentConditions()">
                 @for (city of locations; track city) {
                 <mat-option [value]="city">{{city}}</mat-option>
                 }
             </mat-autocomplete>
         </form>
 
-        @if(currentConditions.city && currentConditions.Temperature && currentConditions.WeatherText){
+        @if(state.city() && state.temp() && state.weatherText() && state.img()){
         <div class="d-flex">
 
-            <img alt="city-weather" src={{currentConditions.WeatherIcon}} class="img">
+            <img alt="city-weather" src={{state.img()}} class="img">
             <div class="d-flex flex-column ms-1">
 
                 <div>
-                    <span class="city">{{currentConditions.city}}</span> 
+                    <span class="city">{{state.city()}}</span>
                     <button mat-icon-button color="warn" aria-label="favorite" (click)="favoriteClick()">
                         <mat-icon>favorite</mat-icon>
                     </button>
                 </div>
-               
-                <span class="degrees">{{currentConditions.Temperature}}°</span>
-                <span class="WeatherText">{{currentConditions.WeatherText}}</span>
+
+                <span class="degrees">{{state.temp()}}°</span>
+                <span class="WeatherText">{{state.weatherText()}}</span>
             </div>
         </div>
         }@else {

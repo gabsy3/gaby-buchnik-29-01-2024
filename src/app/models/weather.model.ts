@@ -31,3 +31,30 @@ export interface Weather {
     Date:string;
     WeatherIcon:string;
   }
+
+
+
+  export interface wsState{
+    id:string;
+    city:string;
+    temp:string;
+    weatherText:string;
+    img:string;
+    favorites:fv[];
+    forecast:fxw[];
+  }
+
+  export interface fv{
+    id:string;
+    city:string;
+    temp:string;
+    img:string;
+  }
+
+  export interface fxw{
+    data:string;
+    minTemp:string;
+    maxTemp:string;
+    img:string;
+  }
+ 

@@ -4,7 +4,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { Store } from '@ngrx/store';
 import {
   FormControl,
   FormGroup,
@@ -18,7 +17,6 @@ import {
   Weather,
   fiveDay,
 } from '../../../models/weather.model';
-import { Add, Remove } from '../../../actions/favorites.actions';
 
 @Component({
   selector: 'app-weather',
@@ -37,23 +35,21 @@ import { Add, Remove } from '../../../actions/favorites.actions';
   styleUrl: './weather.component.scss',
 })
 export class WeatherComponent implements OnInit {
-
-  control: FormControl = new FormControl('tel aviv');
+  inputCity: string = 'tel aviv';
   locations: Weather[] = [];
   weatherService = inject(WeatherService);
-  currentId: string = "215854";
+  currentId: string = '215854';
   currentConditions: CurrentConditions = {
     city: '',
     Temperature: '',
     WeatherIcon: '',
     WeatherText: '',
   };
-  fiveDaysForecast:fiveDay[] = [];
+  fiveDaysForecast: fiveDay[] = [];
+  readonly state = this.weatherService.wsState;
 
-  constructor(private store: Store){}
-  
   ngOnInit(): void {
-    this.getCurrentConditions(this.control.value);
+    this.getCurrentConditions();
   }
   onKeyUp(e: any) {
     this.weatherService.getLocation(e.target.value).subscribe((res: any) => {
@@ -63,10 +59,10 @@ export class WeatherComponent implements OnInit {
       }
     });
   }
-  getCurrentConditions(val: string) {
-    this.weatherService.getLocation(val).subscribe((res: any) => {
+  getCurrentConditions() {
+    this.weatherService.getLocation(this.inputCity).subscribe((res: any) => {
       for (let item of res) {
-        if (item.LocalizedName.toLowerCase() === val.toLowerCase()) {
+        if (item.LocalizedName.toLowerCase() === this.inputCity.toLowerCase()) {
           this.currentId = item.Key;
         }
       }
@@ -75,10 +71,7 @@ export class WeatherComponent implements OnInit {
     this.weatherService
       .getCurrentConditions(this.currentId)
       .subscribe((data: any) => {
-        this.currentConditions.city = val;
-        this.currentConditions.Temperature = data[0].Temperature.Metric.Value;
-        this.currentConditions.WeatherIcon = `https://www.accuweather.com/images/weathericons/${data[0].WeatherIcon}.svg`
-        this.currentConditions.WeatherText = data[0].WeatherText;
+        this.weatherService.setCurrentConditions(this.inputCity , data[0]);
       });
 
     this.weatherService
@@ -86,18 +79,18 @@ export class WeatherComponent implements OnInit {
       .subscribe((data: any) => {
         this.fiveDaysForecast = [];
         for (let item of data.DailyForecasts) {
-        
           this.fiveDaysForecast.push({
-            minTemp:item.Temperature.Minimum.Value,
-            maxTemp:item.Temperature.Maximum.Value,
-            Date:item.Date,
-            WeatherIcon:`https://www.accuweather.com/images/weathericons/${item.Day.Icon}.svg`
-          })
+            minTemp: item.Temperature.Minimum.Value,
+            maxTemp: item.Temperature.Maximum.Value,
+            Date: item.Date,
+            WeatherIcon: `https://www.accuweather.com/images/weathericons/${item.Day.Icon}.svg`,
+          });
         }
       });
   }
-  favoriteClick(){
-    this.store.dispatch(Add());
-    this.store.dispatch(Remove());
+
+  favoriteClick() {
+    this.weatherService.addToFavorite();
+    this.weatherService.removeFromFavorite();
   }
 }
