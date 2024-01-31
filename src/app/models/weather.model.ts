@@ -41,7 +41,7 @@ export interface Weather {
     weatherText:string;
     img:string;
     favorites:fv[];
-    forecast:fxw[];
+    forecast:fcw[];
   }
 
   export interface fv{
@@ -51,8 +51,8 @@ export interface Weather {
     img:string;
   }
 
-  export interface fxw{
-    data:string;
+  export interface fcw{
+    date:string;
     minTemp:string;
     maxTemp:string;
     img:string;

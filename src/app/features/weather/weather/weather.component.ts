@@ -15,7 +15,7 @@ import { WeatherService } from '../../../services/weather.service';
 import {
   CurrentConditions,
   Weather,
-  fiveDay,
+  fcw,
 } from '../../../models/weather.model';
 
 @Component({
@@ -39,13 +39,7 @@ export class WeatherComponent implements OnInit {
   locations: Weather[] = [];
   weatherService = inject(WeatherService);
   currentId: string = '215854';
-  currentConditions: CurrentConditions = {
-    city: '',
-    Temperature: '',
-    WeatherIcon: '',
-    WeatherText: '',
-  };
-  fiveDaysForecast: fiveDay[] = [];
+  forecaseArr: fcw[] = [];
   readonly state = this.weatherService.wsState;
 
   ngOnInit(): void {
@@ -75,17 +69,18 @@ export class WeatherComponent implements OnInit {
       });
 
     this.weatherService
-      .getfiveDaysForecasts(this.currentId)
+      .getForecast(this.currentId)
       .subscribe((data: any) => {
-        this.fiveDaysForecast = [];
+        this.forecaseArr = [];
         for (let item of data.DailyForecasts) {
-          this.fiveDaysForecast.push({
+          this.forecaseArr.push({
             minTemp: item.Temperature.Minimum.Value,
             maxTemp: item.Temperature.Maximum.Value,
-            Date: item.Date,
-            WeatherIcon: `https://www.accuweather.com/images/weathericons/${item.Day.Icon}.svg`,
+            date: item.Date,
+            img: `https://www.accuweather.com/images/weathericons/${item.Day.Icon}.svg`,
           });
         }
+        this.weatherService.setForecast(this.forecaseArr);
       });
   }
 
