@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { fcw, wsState } from '../models/weather.model';
+import { fcw, fv, wsState } from '../models/weather.model';
 import { signalState, patchState } from '@ngrx/signals';
 
 @Injectable({
@@ -18,23 +18,25 @@ export class WeatherService {
     favorites: [],
     forecast: [],
   });
-
+  readonly favorites = this.wsState.favorites();
+  favoritesArr: fv[] = [];
   constructor() {}
 
   getLocation(city: string) {
-    //return this.http.get(`http://localhost:3000/location`);
+    return this.http.get(`http://localhost:3000/location`);
     return this.http.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${city}`
     );
   }
   getCurrentConditions(locationKey: string) {
-    //return this.http.get(`http://localhost:3000/currentConditions`);
+    return this.http.get(`http://localhost:3000/currentConditions`);
     return this.http.get(
       `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${this.apiKey}`
     );
   }
   setCurrentConditions(city: string, data: any) {
     patchState(this.wsState, (state) => ({
+      ...state,
       city: city,
       temp: data.Temperature.Metric.Value,
       weatherText: data.WeatherText,
@@ -42,7 +44,7 @@ export class WeatherService {
     }));
   }
   getForecast(locationKey: string) {
-    //return this.http.get(`http://localhost:3000/fiveDaysForecasts`);
+    return this.http.get(`http://localhost:3000/fiveDaysForecasts`);
     return this.http.get(
       `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?metric=true&apikey=${this.apiKey}`
     );
@@ -53,10 +55,26 @@ export class WeatherService {
       forecast: data,
     }));
   }
-  addToFavorite() {
-    //patchState(this.wsState, (state) => ({ count: state.count + 1 }));
+  addToFavorite(id: string) {
+    if(!this.favorites){
+      
+    }
+    else{
+      for (let item of this.favorites) {
+        if (item.id === id) {
+          return;
+        } else {
+          this.favoritesArr.push(item);
+        }
+      }
+    }
+    
+    patchState(this.wsState, (state) => ({
+      ...state,
+      favorites: this.favoritesArr,
+    }));
   }
-  removeFromFavorite() {
+  removeFromFavorite(id: string) {
     //patchState(this.wsState, (state) => ({ count: state.count + 1 }));
   }
 }

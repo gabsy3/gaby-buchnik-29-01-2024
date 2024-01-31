@@ -74,7 +74,7 @@ export class WeatherComponent implements OnInit {
   }
 
   favoriteClick() {
-    this.weatherService.addToFavorite();
-    this.weatherService.removeFromFavorite();
+    this.weatherService.addToFavorite(this.currentId);
+    //this.weatherService.removeFromFavorite(this.currentId);
   }
 }
