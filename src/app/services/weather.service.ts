@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { Weather, fcw, wsState } from '../models/weather.model';
+import { fcw, wsState } from '../models/weather.model';
 import { signalState, patchState } from '@ngrx/signals';
 
 @Injectable({
@@ -23,13 +22,13 @@ export class WeatherService {
   constructor() {}
 
   getLocation(city: string) {
-    return this.http.get(`http://localhost:3000/location`);
+    //return this.http.get(`http://localhost:3000/location`);
     return this.http.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${city}`
     );
   }
   getCurrentConditions(locationKey: string) {
-    return this.http.get(`http://localhost:3000/currentConditions`);
+    //return this.http.get(`http://localhost:3000/currentConditions`);
     return this.http.get(
       `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${this.apiKey}`
     );
@@ -43,7 +42,7 @@ export class WeatherService {
     }));
   }
   getForecast(locationKey: string) {
-    return this.http.get(`http://localhost:3000/fiveDaysForecasts`);
+    //return this.http.get(`http://localhost:3000/fiveDaysForecasts`);
     return this.http.get(
       `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?metric=true&apikey=${this.apiKey}`
     );
