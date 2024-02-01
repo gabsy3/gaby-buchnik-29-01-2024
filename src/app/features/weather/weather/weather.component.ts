@@ -9,6 +9,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WeatherService } from '../../../services/weather.service';
 import { location, fcw } from '../../../models/weather.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-weather',
@@ -31,6 +32,7 @@ export class WeatherComponent implements OnInit {
   locations: location[] = [];
   weatherService = inject(WeatherService);
   route = inject(ActivatedRoute);
+  toastr = inject(ToastrService);
   currentId: string = '';
   forecaseArr: fcw[] = [];
   readonly state = this.weatherService.wsState;
@@ -93,8 +95,16 @@ export class WeatherComponent implements OnInit {
   favoriteClick() {
     if (this.state.favorite()) {
       this.weatherService.removeFromFavorite(this.currentId);
+      this.showToastErr("favorite removed");
     } else {
       this.weatherService.addToFavorite(this.currentId);
+      this.showToastSuccess("favorite added");
     }
+  }
+  showToastSuccess(msg:string) {
+    this.toastr.success(msg,"success");
+  }
+  showToastErr(msg:string) {
+    this.toastr.error(msg,"error");
   }
 }
