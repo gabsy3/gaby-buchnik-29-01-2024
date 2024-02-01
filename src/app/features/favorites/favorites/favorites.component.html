@@ -3,9 +3,9 @@
     <div class="d-flex justify-content-between">
         @for(fv of state.favorites(); track fv.id){
         <div class="d-flex flex-column align-items-center">
-            <div>{{state.city()}}</div>
-            <div>{{state.temp()}}</div>
-            <img src="{{state.img()}}" class="img">
+            <div>{{fv.city}}</div>
+            <div>{{fv.temp}}</div>
+            <img src="{{fv.img}}" class="img">
         </div>
         }
         @empty{

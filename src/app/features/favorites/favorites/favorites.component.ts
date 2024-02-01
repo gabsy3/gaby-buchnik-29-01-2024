@@ -13,6 +13,7 @@ export class FavoritesComponent implements OnInit{
   readonly state = this.weatherService.wsState;
 
   ngOnInit(): void {
+    console.log(this.state());
   }
-  
+
 }

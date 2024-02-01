@@ -82,6 +82,5 @@ export class WeatherComponent implements OnInit {
     } else {
       this.weatherService.addToFavorite(this.currentId);
     }
-    console.log(this.state());
   }
 }
