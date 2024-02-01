@@ -32,7 +32,7 @@ export class WeatherComponent implements OnInit {
   locations: location[] = [];
   weatherService = inject(WeatherService);
   route = inject(ActivatedRoute)
-  currentId: string = '215854';
+  currentId: string = '';
   forecaseArr: fcw[] = [];
   readonly state = this.weatherService.wsState;
 
