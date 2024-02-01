@@ -53,11 +53,14 @@ export class WeatherComponent implements OnInit {
       }
     });
 
+
     this.weatherService
       .getCurrentConditions(this.currentId)
-      .subscribe((data: any) => {
-        this.weatherService.setCurrentConditions(this.currentId , this.inputCity, data[0]);
+      .subscribe(async(data: any) => {
+        await this.weatherService.setCurrentConditions(this.currentId , this.inputCity, data[0]);
+        this.weatherService.isFavorite(this.currentId);
       });
+
 
     this.weatherService.getForecast(this.currentId).subscribe((data: any) => {
       this.forecaseArr = [];
@@ -79,5 +82,6 @@ export class WeatherComponent implements OnInit {
     } else {
       this.weatherService.addToFavorite(this.currentId);
     }
+    console.log(this.state());
   }
 }
