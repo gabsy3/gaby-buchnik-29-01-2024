@@ -1,1 +1,19 @@
-<p>favorites works!</p>
+<div class="favorites-wrapper">
+    <h2>Favorites</h2>
+    <div class="d-flex justify-content-between">
+        @for(fv of state.favorites(); track fv.id){
+        <div class="d-flex flex-column">
+            <div>{{state.city()}}</div>
+            <div>{{state.temp()}}</div>
+            <img src="{{state.img()}}">
+        </div>
+        }
+        @empty{
+        <div>
+            No Favorites
+        </div>
+        }
+    </div>
+
+
+</div>
