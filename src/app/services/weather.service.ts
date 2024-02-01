@@ -56,8 +56,13 @@ export class WeatherService {
     }));
   }
   addToFavorite(id: string) {
-    if(!this.favorites){
-      
+    if(!this.favorites.length){
+      this.favoritesArr.push({
+        id:id,
+        city:this.wsState.city(),
+        temp:this.wsState.temp(),
+        img:this.wsState.img()
+      });
     }
     else{
       for (let item of this.favorites) {
@@ -73,6 +78,8 @@ export class WeatherService {
       ...state,
       favorites: this.favoritesArr,
     }));
+
+    console.log(this.wsState());
   }
   removeFromFavorite(id: string) {
     //patchState(this.wsState, (state) => ({ count: state.count + 1 }));
