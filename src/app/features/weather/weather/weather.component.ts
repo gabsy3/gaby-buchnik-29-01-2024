@@ -56,7 +56,7 @@ export class WeatherComponent implements OnInit {
     this.weatherService
       .getCurrentConditions(this.currentId)
       .subscribe((data: any) => {
-        this.weatherService.setCurrentConditions(this.inputCity, data[0]);
+        this.weatherService.setCurrentConditions(this.currentId , this.inputCity, data[0]);
       });
 
     this.weatherService.getForecast(this.currentId).subscribe((data: any) => {
@@ -74,7 +74,10 @@ export class WeatherComponent implements OnInit {
   }
 
   favoriteClick() {
-    this.weatherService.addToFavorite(this.currentId);
-    //this.weatherService.removeFromFavorite(this.currentId);
+    if (this.state.favorite()) {
+      this.weatherService.removeFromFavorite(this.currentId);
+    } else {
+      this.weatherService.addToFavorite(this.currentId);
+    }
   }
 }

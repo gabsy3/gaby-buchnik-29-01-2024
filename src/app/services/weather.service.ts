@@ -16,7 +16,7 @@ export class WeatherService {
     weatherText: '',
     img: '',
     favorites: [],
-    favorite:false,
+    favorite: false,
     forecast: [],
   });
   favoritesArr: fv[] = [];
@@ -34,9 +34,10 @@ export class WeatherService {
       `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${this.apiKey}`
     );
   }
-  setCurrentConditions(city: string, data: any) {
+  setCurrentConditions(id:string, city: string, data: any) {
     patchState(this.wsState, (state) => ({
       ...state,
+      id:id,
       city: city,
       temp: data.Temperature.Metric.Value,
       weatherText: data.WeatherText,
@@ -56,15 +57,14 @@ export class WeatherService {
     }));
   }
   addToFavorite(id: string) {
-    if(!this.wsState.favorites().length){
+    if (!this.wsState.favorites().length) {
       this.favoritesArr.push({
-        id:id,
-        city:this.wsState.city(),
-        temp:this.wsState.temp(),
-        img:this.wsState.img()
+        id: id,
+        city: this.wsState.city(),
+        temp: this.wsState.temp(),
+        img: this.wsState.img(),
       });
-    }
-    else{
+    } else {
       for (let item of this.wsState.favorites()) {
         if (item.id === id) {
           return;
@@ -73,16 +73,25 @@ export class WeatherService {
         }
       }
     }
-    
+
     patchState(this.wsState, (state) => ({
       ...state,
-      favorite:true,
+      favorite: true,
       favorites: this.favoritesArr,
     }));
 
     console.log(this.wsState());
   }
   removeFromFavorite(id: string) {
-    //patchState(this.wsState, (state) => ({ count: state.count + 1 }));
+    if (!this.wsState.favorites()) return;
+    const index = this.wsState.favorites().findIndex((item) => item.id === id);
+    this.favoritesArr.splice(index,1);
+    patchState(this.wsState, (state) => ({
+      ...state,
+      favorite: false,
+      favorites: this.favoritesArr,
+    }));
+    console.log(this.wsState());
+
   }
 }
