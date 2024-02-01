@@ -27,20 +27,19 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './weather.component.scss',
 })
 export class WeatherComponent implements OnInit {
-
   inputCity: string = 'tel aviv';
   locations: location[] = [];
   weatherService = inject(WeatherService);
-  route = inject(ActivatedRoute)
+  route = inject(ActivatedRoute);
   currentId: string = '';
   forecaseArr: fcw[] = [];
   readonly state = this.weatherService.wsState;
 
   ngOnInit(): void {
     if (this.route.snapshot.queryParams['data']) {
-      this.route.queryParams.subscribe((params:any)=>{
+      this.route.queryParams.subscribe((params: any) => {
         this.inputCity = params.data;
-      })
+      });
     }
     this.getCurrentConditions();
   }
@@ -52,6 +51,11 @@ export class WeatherComponent implements OnInit {
       }
     });
   }
+  omit_special_char(ev:any) {
+    var k;
+    k = ev.keyCode;
+    return (k >= 97 && k <= 122)||(k >= 65 && k <= 90);
+  }
   getCurrentConditions() {
     this.weatherService.getLocation(this.inputCity).subscribe((res: any) => {
       for (let item of res) {
@@ -61,14 +65,16 @@ export class WeatherComponent implements OnInit {
       }
     });
 
-
     this.weatherService
       .getCurrentConditions(this.currentId)
-      .subscribe(async(data: any) => {
-        await this.weatherService.setCurrentConditions(this.currentId , this.inputCity, data[0]);
+      .subscribe(async (data: any) => {
+        await this.weatherService.setCurrentConditions(
+          this.currentId,
+          this.inputCity,
+          data[0]
+        );
         this.weatherService.isFavorite(this.currentId);
       });
-
 
     this.weatherService.getForecast(this.currentId).subscribe((data: any) => {
       this.forecaseArr = [];

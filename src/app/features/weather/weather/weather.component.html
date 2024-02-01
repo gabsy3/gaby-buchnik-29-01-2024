@@ -3,7 +3,7 @@
 
         <form class="example-form">
             <input type="text" placeholder="city" [matAutocomplete]="auto" class="search"
-                (keyup)="onKeyUp($event)" [(ngModel)]="inputCity" name="inputCity"/>
+                (keyup)="onKeyUp($event)" [(ngModel)]="inputCity" name="inputCity" (keypress)="omit_special_char($event)"/>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCurrentConditions()">
                 @for (city of locations; track city) {
                 <mat-option [value]="city">{{city}}</mat-option>
