@@ -1,11 +1,11 @@
-<div class="favorites-wrapper">
+<div class="favorites-wrapper my-3">
     <h2>Favorites</h2>
     <div class="d-flex justify-content-between">
         @for(fv of state.favorites(); track fv.id){
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column align-items-center">
             <div>{{state.city()}}</div>
             <div>{{state.temp()}}</div>
-            <img src="{{state.img()}}">
+            <img src="{{state.img()}}" class="img">
         </div>
         }
         @empty{
