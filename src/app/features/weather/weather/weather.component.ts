@@ -105,6 +105,6 @@ export class WeatherComponent implements OnInit {
     this.toastr.success(msg,"success");
   }
   showToastErr(msg:string) {
-    this.toastr.error(msg,"error");
+    this.toastr.info(msg,"deleted");
   }
 }
