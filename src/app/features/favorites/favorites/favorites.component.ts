@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { WeatherService } from '../../../services/weather.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-favorites',
@@ -8,12 +9,12 @@ import { WeatherService } from '../../../services/weather.service';
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss'
 })
-export class FavoritesComponent implements OnInit{
+export class FavoritesComponent{
   weatherService = inject(WeatherService);
   readonly state = this.weatherService.wsState;
-
-  ngOnInit(): void {
-    console.log(this.state());
+  route = inject(Router)
+  
+  goTomain(city:string){
+    this.route.navigate(['/home'],{queryParams:{data:city}})
   }
-
 }

@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WeatherService } from '../../../services/weather.service';
 import { location, fcw } from '../../../models/weather.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-weather',
@@ -26,14 +27,21 @@ import { location, fcw } from '../../../models/weather.model';
   styleUrl: './weather.component.scss',
 })
 export class WeatherComponent implements OnInit {
+
   inputCity: string = 'tel aviv';
   locations: location[] = [];
   weatherService = inject(WeatherService);
+  route = inject(ActivatedRoute)
   currentId: string = '215854';
   forecaseArr: fcw[] = [];
   readonly state = this.weatherService.wsState;
 
   ngOnInit(): void {
+    if (this.route.snapshot.queryParams['data']) {
+      this.route.queryParams.subscribe((params:any)=>{
+        this.inputCity = params.data;
+      })
+    }
     this.getCurrentConditions();
   }
   onKeyUp(e: any) {
