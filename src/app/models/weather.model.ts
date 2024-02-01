@@ -9,6 +9,7 @@ export interface wsState {
   weatherText: string;
   img: string;
   favorites: fv[];
+  favorite:boolean;
   forecast: fcw[];
 }
 

@@ -16,9 +16,9 @@ export class WeatherService {
     weatherText: '',
     img: '',
     favorites: [],
+    favorite:false,
     forecast: [],
   });
-  readonly favorites = this.wsState.favorites();
   favoritesArr: fv[] = [];
   constructor() {}
 
@@ -56,7 +56,7 @@ export class WeatherService {
     }));
   }
   addToFavorite(id: string) {
-    if(!this.favorites.length){
+    if(!this.wsState.favorites().length){
       this.favoritesArr.push({
         id:id,
         city:this.wsState.city(),
@@ -65,7 +65,7 @@ export class WeatherService {
       });
     }
     else{
-      for (let item of this.favorites) {
+      for (let item of this.wsState.favorites()) {
         if (item.id === id) {
           return;
         } else {
@@ -76,6 +76,7 @@ export class WeatherService {
     
     patchState(this.wsState, (state) => ({
       ...state,
+      favorite:true,
       favorites: this.favoritesArr,
     }));
 

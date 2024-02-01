@@ -11,23 +11,20 @@
             </mat-autocomplete>
         </form>
 
-        @if(state.city() && state.temp() && state.weatherText() && state.img()){
-        <div class="d-flex">
+        @if(state.city()){
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <span class="city">{{state.city()}}</span>
+                <button mat-icon-button aria-label="favorite" (click)="favoriteClick()" class="favorite" [ngClass]="{'warn':state.favorite()}">
+                    <mat-icon>favorite</mat-icon>
+                </button>
+            </div>
+            
 
-            <img alt="city-weather" src={{state.img()}} class="img">
-            <div class="d-flex flex-column ms-1">
-
-                <div>
-                    <span class="city">{{state.city()}}</span>
-                    <button mat-icon-button color="warn" aria-label="favorite" (click)="favoriteClick()">
-                        <mat-icon>favorite</mat-icon>
-                    </button>
-                </div>
-
-                <span class="degrees">{{state.temp()}}°</span>
+            <div class="d-flex flex-column align-items-center">
+                <img alt="city-weather" src={{state.img()}} class="img">
+                <span class="degrees my-3">{{state.temp()}}°</span>
                 <span class="WeatherText">{{state.weatherText()}}</span>
             </div>
-        </div>
         }@else {
         <div>City not found</div>
         }
