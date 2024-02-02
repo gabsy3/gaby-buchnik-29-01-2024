@@ -53,51 +53,66 @@ export class WeatherComponent implements OnInit {
       }
     });
   }
-  omit_special_char(ev:any) {
+  omit_special_char(ev: any) {
     var k;
     k = ev.keyCode;
-    return (k >= 97 && k <= 122)||(k >= 65 && k <= 90);
+    return (k >= 97 && k <= 122) || (k >= 65 && k <= 90);
   }
   getCurrentConditions() {
-    this.weatherService.getLocation(this.inputCity).subscribe((res: any) => {
-      for (let item of res) {
-        if (item.LocalizedName.toLowerCase() === this.inputCity.toLowerCase()) {
-          this.currentId = item.Key;
+    this.weatherService.getLocation(this.inputCity).subscribe({
+      next: (res: any) => {
+        for (let item of res) {
+          if (
+            item.LocalizedName.toLowerCase() === this.inputCity.toLowerCase()
+          ) {
+            this.currentId = item.Key;
+          }
         }
-      }
-      this.weatherService
-      .getCurrentConditions(this.currentId)
-      .subscribe(async (data: any) => {
-        await this.weatherService.setCurrentConditions(
-          this.currentId,
-          this.inputCity,
-          data[0]
-        );
-        this.weatherService.isFavorite(this.currentId);
-      });
-
-    this.weatherService.getForecast(this.currentId).subscribe((data: any) => {
-      this.forecaseArr = [];
-      for (let item of data.DailyForecasts) {
-        this.forecaseArr.push({
-          minTemp: item.Temperature.Minimum.Value,
-          maxTemp: item.Temperature.Maximum.Value,
-          date: item.Date,
-          img: `https://www.accuweather.com/images/weathericons/${item.Day.Icon}.svg`,
+        this.weatherService.getCurrentConditions(this.currentId).subscribe({
+          next: async (data: any) => {
+            await this.weatherService.setCurrentConditions(
+              this.currentId,
+              this.inputCity,
+              data[0]
+            );
+            this.weatherService.isFavorite(this.currentId);
+          },
+          error: (err) => {
+            this.toastr.error(err.message,"getCurrentConditions");
+          },
         });
-      }
-      this.weatherService.setForecast(this.forecaseArr);
-    });
+
+        this.weatherService.getForecast(this.currentId).subscribe({
+          next: (data: any) => {
+            this.forecaseArr = [];
+            for (let item of data.DailyForecasts) {
+              this.forecaseArr.push({
+                minTemp: item.Temperature.Minimum.Value,
+                maxTemp: item.Temperature.Maximum.Value,
+                date: item.Date,
+                img: `https://www.accuweather.com/images/weathericons/${item.Day.Icon}.svg`,
+              });
+            }
+            this.weatherService.setForecast(this.forecaseArr);
+          },
+          error: (err) => {
+            this.toastr.error(err.message,"getForecast");
+          },
+        });
+      },
+      error: (err) => {
+        this.toastr.error(err.message,"getLocation");
+      },
     });
   }
 
   favoriteClick() {
     if (this.state.favorite()) {
       this.weatherService.removeFromFavorite(this.currentId);
-      this.toastr.info("favorite removed","success");
+      this.toastr.info('favorite removed', 'success');
     } else {
       this.weatherService.addToFavorite(this.currentId);
-      this.toastr.success("favorite added","deleted");
+      this.toastr.success('favorite added', 'deleted');
     }
   }
 }

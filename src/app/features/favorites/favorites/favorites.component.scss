@@ -1,5 +1,16 @@
-.favorites-wrapper{
-    .img{
-        width:80px;
+.favorites-wrapper {
+    .item-wrapper{
+        .img {
+            width: 80px;
+        }
+    
+        .item {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 50px;
+            background: azure;
+            font-size: 1.5em;
+            box-shadow: 5px 4px 11px #ccc;
+        }
     }
 }

@@ -14,7 +14,7 @@
 
     .dash {
         align-items: center;
-        padding-top: 50px;
+        padding: 50px;
     }
 
     h4 {
@@ -37,8 +37,6 @@
     }
 
     .forecast-wrapper {
-        height: 200px;
-        background: rgba(0, 0, 0, 0.8196078431);
         color: white;
         position: absolute;
         bottom: 0;
@@ -47,7 +45,8 @@
         .forecast-item {
             padding: 30px;
             border-right: 1px solid #666;
-            width: 15%;
+            background: rgba(0, 0, 0, 0.8196078431);
+            width:100%;
         }
     }
 

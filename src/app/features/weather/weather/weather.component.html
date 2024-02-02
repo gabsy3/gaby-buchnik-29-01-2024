@@ -30,7 +30,7 @@
         }
     </div>
 
-    <div class="d-flex flex-row justify-content-between forecast-wrapper">
+    <div class="d-flex flex-md-row flex-column justify-content-between forecast-wrapper">
         @for(item of state.forecast(); track item){
         <div class="m-1 forecast-item">
             <div class="Temp">{{item.minTemp}}° - {{item.maxTemp}}°</div>
