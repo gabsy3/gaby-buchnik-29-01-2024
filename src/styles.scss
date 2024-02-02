@@ -25,6 +25,9 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	height:100%;
+	background-image: url("./assets/images/sky-background.jpg");
+	background-size: cover;
 }
 ol, ul {
 	list-style: none;
