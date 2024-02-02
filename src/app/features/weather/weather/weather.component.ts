@@ -109,10 +109,10 @@ export class WeatherComponent implements OnInit {
   favoriteClick() {
     if (this.state.favorite()) {
       this.weatherService.removeFromFavorite(this.currentId);
-      this.toastr.info('favorite removed', 'success');
+      this.toastr.info('favorite removed', 'remove favorite');
     } else {
       this.weatherService.addToFavorite(this.currentId);
-      this.toastr.success('favorite added', 'deleted');
+      this.toastr.success('favorite added success', 'add favorite');
     }
   }
 }
