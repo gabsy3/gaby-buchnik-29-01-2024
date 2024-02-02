@@ -65,9 +65,7 @@ export class WeatherComponent implements OnInit {
           this.currentId = item.Key;
         }
       }
-    });
-
-    this.weatherService
+      this.weatherService
       .getCurrentConditions(this.currentId)
       .subscribe(async (data: any) => {
         await this.weatherService.setCurrentConditions(
@@ -90,21 +88,16 @@ export class WeatherComponent implements OnInit {
       }
       this.weatherService.setForecast(this.forecaseArr);
     });
+    });
   }
 
   favoriteClick() {
     if (this.state.favorite()) {
       this.weatherService.removeFromFavorite(this.currentId);
-      this.showToastErr("favorite removed");
+      this.toastr.info("favorite removed","success");
     } else {
       this.weatherService.addToFavorite(this.currentId);
-      this.showToastSuccess("favorite added");
+      this.toastr.success("favorite added","deleted");
     }
-  }
-  showToastSuccess(msg:string) {
-    this.toastr.success(msg,"success");
-  }
-  showToastErr(msg:string) {
-    this.toastr.info(msg,"deleted");
   }
 }

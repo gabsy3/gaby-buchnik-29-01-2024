@@ -23,6 +23,7 @@ export class WeatherService {
   constructor() {}
 
   getLocation(city: string) {
+    city = city.replaceAll(" ","%20")
     return this.http.get(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${city}`
     );
