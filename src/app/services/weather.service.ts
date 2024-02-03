@@ -7,7 +7,7 @@ import { signalState, patchState } from '@ngrx/signals';
   providedIn: 'root',
 })
 export class WeatherService {
-  apiKey = `8qxW17CkeY7OOcA45AmFA4XvYq9GVwWa`;
+  apiKey = `c3e1ab716eeb560ab4d2caafe138bd1d`;
   http = inject(HttpClient);
   wsState = signalState<wsState>({
     id: '',
