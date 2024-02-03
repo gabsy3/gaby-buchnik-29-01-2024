@@ -7,7 +7,7 @@ import { signalState, patchState } from '@ngrx/signals';
   providedIn: 'root',
 })
 export class WeatherService {
-  apiKey = `c3e1ab716eeb560ab4d2caafe138bd1d`;
+  apiKey = `FS9etrBst86DERXJcqAuzJDSMq3EFgid`;
   http = inject(HttpClient);
   wsState = signalState<wsState>({
     id: '',
@@ -25,12 +25,12 @@ export class WeatherService {
   getLocation(city: string) {
     city = city.replaceAll(" ","%20");
     return this.http.get(
-      `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${city}`
+      `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${city}`
     );
   }
   getCurrentConditions(locationKey: string) {
     return this.http.get(
-      `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${this.apiKey}`
+      `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${this.apiKey}`
     );
   }
   setCurrentConditions(id: string, city: string, data: any) {
