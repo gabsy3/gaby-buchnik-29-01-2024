@@ -1,0 +1,17 @@
+@if(state.city()){
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <span class="city">{{state.city()}}</span>
+        <button mat-icon-button aria-label="favorite" (click)="favoriteClick()" class="favorite" [ngClass]="{'warn':state.favorite()}">
+            <mat-icon>favorite</mat-icon>
+        </button>
+    </div>
+    
+
+    <div class="d-flex flex-column align-items-center">
+        <img alt="city-weather" src={{state.img()}} class="img">
+        <span class="degrees my-3">{{state.temp()}}°</span>
+        <span class="WeatherText">{{state.weatherText()}}</span>
+    </div>
+}@else {
+<div>City not found</div>
+}

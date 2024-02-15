@@ -7,25 +7,27 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WeatherService } from '../../../services/weather.service';
-import { location, fcw } from '../../../models/weather.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { location } from '../../../models/weather.model';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CurrentConditionsComponent } from "../current-conditions/current-conditions.component";
+import { ForecastComponent } from "../forecast/forecast.component";
 
 @Component({
-  selector: 'app-weather',
-  standalone: true,
-  imports: [
-    MatInputModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatButtonModule,
-    CommonModule,
-    FormsModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './weather.component.html',
-  styleUrl: './weather.component.scss',
+    selector: 'app-weather',
+    standalone: true,
+    templateUrl: './weather.component.html',
+    styleUrl: './weather.component.scss',
+    imports: [
+        MatInputModule,
+        MatFormFieldModule,
+        CommonModule,
+        FormsModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        CurrentConditionsComponent,
+        ForecastComponent
+    ]
 })
 export class WeatherComponent implements OnInit {
   inputCity: string = 'tel aviv';
@@ -34,7 +36,6 @@ export class WeatherComponent implements OnInit {
   route = inject(ActivatedRoute);
   toastr = inject(ToastrService);
   currentId: string = '';
-  forecaseArr: fcw[] = [];
   readonly state = this.weatherService.wsState;
 
   ngOnInit(): void {
@@ -43,7 +44,7 @@ export class WeatherComponent implements OnInit {
         this.inputCity = params.data;
       });
     }
-    this.getCurrentConditions();
+    this.locationClicked();
   }
   onKeyUp(e: any) {
     this.weatherService.getLocation(e.target.value).subscribe((res: any) => {
@@ -58,7 +59,7 @@ export class WeatherComponent implements OnInit {
     k = ev.keyCode;
     return (k >= 97 && k <= 122) || (k >= 65 && k <= 90);
   }
-  getCurrentConditions() {
+  locationClicked() {
     this.weatherService.getLocation(this.inputCity).subscribe({
       next: (res: any) => {
         for (let item of res) {
@@ -68,37 +69,7 @@ export class WeatherComponent implements OnInit {
             this.currentId = item.Key;
           }
         }
-        this.weatherService.getCurrentConditions(this.currentId).subscribe({
-          next: async (data: any) => {
-            await this.weatherService.setCurrentConditions(
-              this.currentId,
-              this.inputCity,
-              data[0]
-            );
-            this.weatherService.isFavorite(this.currentId);
-          },
-          error: (err) => {
-            this.toastr.error(err.message,"getCurrentConditions");
-          },
-        });
-
-        this.weatherService.getForecast(this.currentId).subscribe({
-          next: (data: any) => {
-            this.forecaseArr = [];
-            for (let item of data.DailyForecasts) {
-              this.forecaseArr.push({
-                minTemp: item.Temperature.Minimum.Value,
-                maxTemp: item.Temperature.Maximum.Value,
-                date: item.Date,
-                img: `https://www.accuweather.com/images/weathericons/${item.Day.Icon}.svg`,
-              });
-            }
-            this.weatherService.setForecast(this.forecaseArr);
-          },
-          error: (err) => {
-            this.toastr.error(err.message,"getForecast");
-          },
-        });
+        this.weatherService.setLocationKey(this.currentId , this.inputCity);
       },
       error: (err) => {
         this.toastr.error(err.message,"getLocation");
@@ -106,13 +77,5 @@ export class WeatherComponent implements OnInit {
     });
   }
 
-  favoriteClick() {
-    if (this.state.favorite()) {
-      this.weatherService.removeFromFavorite(this.currentId);
-      this.toastr.info('favorite removed', 'remove favorite');
-    } else {
-      this.weatherService.addToFavorite(this.currentId);
-      this.toastr.success('favorite added success', 'add favorite');
-    }
-  }
+ 
 }

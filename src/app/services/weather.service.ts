@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, effect, inject } from '@angular/core';
 import { fcw, fv, wsState } from '../models/weather.model';
 import { signalState, patchState } from '@ngrx/signals';
 
@@ -32,6 +32,13 @@ export class WeatherService {
     return this.http.get(
       `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${this.apiKey}`
     );
+  }
+  setLocationKey(id:string , city :string){
+    patchState(this.wsState, (state) => ({
+      ...state,
+      id: id,
+      city:city,
+    }));
   }
   setCurrentConditions(id: string, city: string, data: any) {
     patchState(this.wsState, (state) => ({
