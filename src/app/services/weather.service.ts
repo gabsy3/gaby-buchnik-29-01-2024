@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, effect, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { fcw, fv, wsState } from '../models/weather.model';
 import { signalState, patchState } from '@ngrx/signals';
 
